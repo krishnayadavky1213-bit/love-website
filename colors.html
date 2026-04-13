@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>✨ A Little Surprise for You ✨</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 30%, #2b1b3a, #0f0c1b);
+      font-family: 'Segoe UI', 'Quicksand', system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      color: #f3e7ff;
+    }
+
+    .step-container {
+      max-width: 680px;
+      width: 100%;
+      background: rgba(22, 15, 35, 0.75);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(230, 200, 255, 0.3);
+      border-radius: 56px;
+      padding: 35px 28px;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.65), inset 0 0 0 1px rgba(210, 170, 250, 0.15);
+    }
+
+    h2 {
+      font-size: 2.3rem;
+      color: #fad5ff;
+      text-align: center;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      text-shadow: 0 0 15px #b77eb8;
+    }
+
+    .step-card {
+      background: rgba(18, 12, 28, 0.8);
+      border-radius: 40px;
+      padding: 28px 26px;
+      margin: 20px 0;
+      border-left: 7px solid #e8b4ff;
+      box-shadow: 0 10px 0 #0d0914;
+    }
+
+    .message-area {
+      font-size: 1.28rem;
+      line-height: 1.75;
+      min-height: 120px;
+    }
+
+    .poetry {
+      font-style: italic;
+      font-size: 1.35rem;
+      color: #f8d6ff;
+      background: rgba(50, 30, 70, 0.6);
+      padding: 20px 24px;
+      border-radius: 30px;
+      margin: 18px 0;
+      border-left: 5px solid #c58fcf;
+      line-height: 1.8;
+    }
+
+    .character-highlight {
+      background: linear-gradient(90deg, #3a2a4f, #2c1f3a);
+      padding: 16px 20px;
+      border-radius: 28px;
+      margin: 16px 0;
+      font-size: 1.2rem;
+      line-height: 1.7;
+      border-left: 6px solid #e8b4ff;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 12px;
+      margin: 18px 0 8px;
+    }
+
+    input {
+      flex: 1;
+      background: #261f32;
+      border: 1.5px solid #a679b3;
+      border-radius: 60px;
+      padding: 15px 24px;
+      font-size: 1.22rem;
+      color: #ffecdd;
+      outline: none;
+    }
+
+    input::placeholder {
+      color: #baa6cc;
+      font-style: italic;
+    }
+
+    .btn {
+      background: #b594d9;
+      border: none;
+      color: #1b1025;
+      font-weight: bold;
+      padding: 13px 32px;
+      border-radius: 60px;
+      font-size: 1.28rem;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #5d4270;
+      transition: all 0.1s;
+    }
+
+    .btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #4d3660;
+    }
+
+    .action-row {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin: 25px 0 15px;
+      flex-wrap: wrap;
+    }
+
+    .sweet-words {
+      font-size: 1.35rem;
+      color: #fad6b3;
+      background: #2a1e35b0;
+      padding: 8px 18px;
+      border-radius: 50px;
+      display: inline-block;
+    }
+
+    .birthday-highlight {
+      background: #4f3866;
+      padding: 8px 22px;
+      border-radius: 60px;
+      font-size: 1.85rem;
+      font-weight: bold;
+      color: #ffe3b1;
+      display: inline-block;
+      margin: 12px 0;
+    }
+
+    .music-tip {
+      background: #1f1730;
+      border-radius: 40px;
+      padding: 12px 20px;
+      margin: 15px 0;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .fade-in {
+      animation: fade 0.4s ease;
+    }
+
+    @keyframes fade {
+      from { opacity: 0.3; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+<div class="step-container" id="appContainer">
+  <h2>🌸 My Beautiful Surprise for You 🌸</h2>
+  
+  <audio id="loveMusic" loop preload="auto">
+    <source src="krishna.audio.mp4.mp4" type="audio/mpeg">
+  </audio>
+
+  <div id="stepDisplay" class="step-card">
+    <div class="message-area" id="mainMessage">
+      🌙 Loading your special moment...
+    </div>
+    <div id="inputSection"></div>
+    <div id="actionButtons" class="action-row"></div>
+  </div>
+
+  <div id="extraNote" style="margin-top: 15px; text-align: center;"></div>
+  
+  <div class="music-tip">
+    <button id="playMusicBtn" class="btn" style="padding: 10px 26px; font-size:1.15rem;">🎵 Play Romantic Music</button>
+    <span style="color:#dac0ff;">Listen while you read ❤️</span>
+  </div>
+</div>
+
+<script>
+  (function(){
+    "use strict";
+
+    let currentStep = 0;
+    let userName = '';
+
+    const mainMessage = document.getElementById('mainMessage');
+    const inputSection = document.getElementById('inputSection');
+    const actionButtons = document.getElementById('actionButtons');
+    const extraNote = document.getElementById('extraNote');
+    const audio = document.getElementById('loveMusic');
+    const playBtn = document.getElementById('playMusicBtn');
+
+    let musicPlaying = false;
+    playBtn.addEventListener('click', () => {
+      if (!musicPlaying) {
+        audio.play().then(() => {
+          musicPlaying = true;
+          playBtn.textContent = '⏸ Pause Music';
+        }).catch(() => alert('Tap again to play music ❤️'));
+      } else {
+        audio.pause();
+        musicPlaying = false;
+        playBtn.textContent = '🎵 Play Romantic Music';
+      }
+    });
+
+    function renderStep() {
+      inputSection.innerHTML = '';
+      actionButtons.innerHTML = '';
+      extraNote.innerHTML = '';
+      mainMessage.classList.add('fade-in');
+      setTimeout(() => mainMessage.classList.remove('fade-in'), 400);
+
+      if (currentStep === 0) {
+        // Name Input
+        mainMessage.innerHTML = `✨ First, tell me your lovely name, beautiful? ✨`;
+        inputSection.innerHTML = `
+          <div class="input-group">
+            <input type="text" id="nameInput" placeholder="Your sweet name..." autocomplete="off" />
+          </div>
+        `;
+        actionButtons.innerHTML = `<button class="btn" id="nextBtn">Continue ❤️</button>`;
+        
+        document.getElementById('nextBtn').addEventListener('click', () => {
+          const name = document.getElementById('nameInput').value.trim();
+          if (!name) {
+            alert("Please write your beautiful name 🌸");
+            return;
+          }
+          userName = name;
+          currentStep = 1;
+          renderStep();
+        });
+      } 
+      
+      else if (currentStep === 1) {
+        // Happy New Year + Surprise
+        mainMessage.innerHTML = `
+          🎉 <span class="sweet-words">${userName}, Happy New Year my dear!</span> 🎉<br><br>
+          May this year fill your life with endless joy, success, and all the love your heart can hold.<br><br>
+          <strong>And I have a little surprise for you...</strong> ❤️
+        `;
+        actionButtons.innerHTML = `<button class="btn" id="nextBtn">Show me the surprise ➡️</button>`;
+        
+        document.getElementById('nextBtn').addEventListener('click', () => {
+          currentStep = 2;
+          renderStep();
+        });
+      } 
+      
+      else if (currentStep === 2) {
+        // Birthday + Poetry + Character
+        mainMessage.innerHTML = `
+          <div style="font-size:1.9rem;">📅 I remember...</div>
+          <div class="birthday-highlight">🎂 Bhadra 29 🎂</div>
+          <div style="margin:15px 0;">Yes ${userName}, your birthday is forever special to me.</div>
+
+          <div class="poetry">
+            In the quiet of my heart, I wrote these lines for you:<br><br>
+            "Your smile is the first light of my morning,<br>
+            Your voice — the softest melody I long to hear.<br>
+            In your gentle ways, I found my peace,<br>
+            In your kind soul, I found my home."
+          </div>
+
+          <div class="character-highlight">
+            The way you behave — so graceful and warm, the kindness that naturally flows from you, 
+            how you care for others without expecting anything in return, your beautiful character that shines even in silence... 
+            These things made me fall deeply in love with you.
+          </div>
+
+          <div class="sweet-words" style="font-size:1.4rem;">
+            I've been loving you from two years... quietly, truly, and with all my heart.
+          </div>
+        `;
+        actionButtons.innerHTML = `<button class="btn" id="nextBtn">Continue to my feelings ➡️</button>`;
+        
+        document.getElementById('nextBtn').addEventListener('click', () => {
+          currentStep = 3;
+          renderStep();
+        });
+      } 
+      
+      else if (currentStep === 3) {
+        // Final emotional message + Question
+        mainMessage.innerHTML = `
+          <div style="font-size:2.1rem; color:#ffd6f0;">${userName}, my heart wants to say...</div><br>
+          
+          <div class="poetry">
+            You are the poetry I never knew I could write,<br>
+            The calm in my chaos, the dream in my night.<br>
+            Every little thing you do, every smile you share,<br>
+            Makes this ordinary world feel beautifully rare.
+          </div>
+
+          <div class="character-highlight">
+            Your behaviour is so pure and elegant, your character so strong yet soft — 
+            you carry kindness like a crown, and grace like a gentle breeze. 
+            That's what made me fall for you completely.
+          </div>
+
+          <div style="margin:22px 0; font-size:1.32rem;">
+            I know the heart of a girl... You deserve to feel cherished, respected, and deeply loved every day.
+          </div>
+
+          <div style="font-size:1.9rem; margin:20px 0;">🌸 ${userName}, do you want me in your life? 🌸</div>
+        `;
+
+        actionButtons.innerHTML = `
+          <button class="btn" id="yesBtn" style="background:#a5d6a5;">💖 Yes, I do</button>
+          <button class="btn" id="noBtn" style="background:#d4a0b5;">🥀 Not right now</button>
+        `;
+
+        document.getElementById('yesBtn').addEventListener('click', () => {
+          mainMessage.innerHTML = `
+            <div style="font-size:2.4rem;">💞 ${userName}, you just made my world brighter! 💞</div><br>
+            <div class="poetry">
+              From today, I promise to love you the way you deserve —<br>
+              with patience, respect, and endless affection.
+            </div>
+            <div style="margin-top:20px; font-size:1.3rem;">
+              Happy New Year again, my love. Let's make this year ours ❤️
+            </div>
+          `;
+          actionButtons.innerHTML = `<button class="btn" id="restartBtn">Read Again 🌸</button>`;
+          document.getElementById('restartBtn').addEventListener('click', resetJourney);
+        });
+
+        document.getElementById('noBtn').addEventListener('click', () => {
+          mainMessage.innerHTML = `
+            <div style="font-size:2.3rem;">😊 I understand, my dear 😊</div><br>
+            <div class="sweet-words">I'll still be here, waiting with the same love.</div>
+            <div style="margin:18px 0;">Take all the time you need. My heart isn't going anywhere.</div>
+          `;
+          actionButtons.innerHTML = `<button class="btn" id="restartBtn">Read Again 🌸</button>`;
+          document.getElementById('restartBtn').addEventListener('click', resetJourney);
+        });
+      }
+    }
+
+    function resetJourney() {
+      currentStep = 0;
+      userName = '';
+      renderStep();
+      extraNote.innerHTML = '';
+    }
+
+    // Start the journey
+    renderStep();
+
+    // Enter key support
+    document.addEventListener('keypress', (e) => {
+      if (currentStep === 0 && e.key === 'Enter') {
+        const btn = document.getElementById('nextBtn');
+        if (btn) btn.click();
+      }
+    });
+
+  })();
+</script>
+
+<style>
+  .btn { transition: all 0.12s; }
+  input { background: #1f172b; border: 1px solid #bc9bcf; color: #f5e2ff; }
+</style>
+</body>
+</html>
